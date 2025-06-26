@@ -12,6 +12,7 @@ import java.util.List;
 public class Product {
     private String id;
     private String name;
+    private String categoryId;
     private List<String> subCategoryIds;
     private String productType;
     private List<String> imageUrls;
