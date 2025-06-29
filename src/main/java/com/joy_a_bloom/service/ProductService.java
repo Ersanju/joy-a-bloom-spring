@@ -3,6 +3,7 @@ package com.joy_a_bloom.service;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.joy_a_bloom.model.Product;
+import com.joy_a_bloom.model.Review;
 import com.joy_a_bloom.utils.Util;
 import org.springframework.stereotype.Service;
 
@@ -49,4 +50,29 @@ public class ProductService {
 
         return response.toString();
     }
+
+    public String addReviewsToProduct(String productId, List<Review> newReviews) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        DocumentReference docRef = db.collection(COLLECTION_NAME).document(productId);
+        DocumentSnapshot snapshot = docRef.get().get();
+
+        if (!snapshot.exists()) {
+            return "Product with ID " + productId + " does not exist.";
+        }
+
+        Product product = snapshot.toObject(Product.class);
+        List<Review> existingReviews = product.getReviews();
+
+        if (existingReviews == null) {
+            existingReviews = new ArrayList<>();
+        }
+
+        existingReviews.addAll(newReviews);
+        product.setReviews(existingReviews);
+
+        docRef.set(product); // overwrite the document with updated reviews
+        return "Added " + newReviews.size() + " reviews to product ID: " + productId;
+    }
+
+
 }

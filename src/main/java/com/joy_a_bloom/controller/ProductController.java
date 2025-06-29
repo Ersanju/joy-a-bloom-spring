@@ -1,5 +1,6 @@
 package com.joy_a_bloom.controller;
 
+import com.joy_a_bloom.dto.ProductReviewRequest;
 import com.joy_a_bloom.model.Product;
 import com.joy_a_bloom.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ public class ProductController {
     @PostMapping("/add-products")
     public String addMultipleProducts(@RequestBody List<Product> products) throws ExecutionException, InterruptedException {
         return productService.addMultipleProducts(products);
+    }
+
+    @PostMapping("/add-reviews")
+    public String addMultipleReviews(@RequestBody ProductReviewRequest request)
+            throws ExecutionException, InterruptedException {
+        return productService.addReviewsToProduct(request.getProductId(), request.getReviews());
     }
 }
 
