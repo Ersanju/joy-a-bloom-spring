@@ -1,6 +1,7 @@
 package com.joy_a_bloom.model;
 
 import lombok.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -8,13 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ChocolateAttribute {
-    private String chocolateType;
     private String brand;
-    private double weightInGrams;
-    private int quantity;
-    private boolean isSugarFree;
-    private double price;
-    private Double oldPrice;
-    private double discount;
-    private String sku;
+    private List<ChocolateVariant> variants;
 }

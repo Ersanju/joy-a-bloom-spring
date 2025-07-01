@@ -61,6 +61,7 @@ public class ProductService {
         }
 
         Product product = snapshot.toObject(Product.class);
+        assert product != null;
         List<Review> existingReviews = product.getReviews();
 
         if (existingReviews == null) {
@@ -70,7 +71,7 @@ public class ProductService {
         existingReviews.addAll(newReviews);
         product.setReviews(existingReviews);
 
-        docRef.set(product); // overwrite the document with updated reviews
+        docRef.update("reviews", existingReviews);
         return "Added " + newReviews.size() + " reviews to product ID: " + productId;
     }
 

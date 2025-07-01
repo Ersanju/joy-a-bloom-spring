@@ -7,10 +7,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Variant {
+public class ChocolateVariant {
     private String sku;
-    private String weight;
-    private int tier;
+    private double weightInGrams;
+    private int quantity;
+    private boolean isSugarFree;
     private double price;
     private Double oldPrice;
     private int stockQuantity;
