@@ -1,5 +1,6 @@
 package com.joy_a_bloom.service;
 
+import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.joy_a_bloom.model.Product;
@@ -50,6 +51,35 @@ public class ProductService {
 
         return response.toString();
     }
+
+    public Product getProductById(String productId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        DocumentReference docRef = db.collection(COLLECTION_NAME).document(productId);
+        DocumentSnapshot snapshot = docRef.get().get();
+
+        if (snapshot.exists()) {
+            return snapshot.toObject(Product.class);
+        } else {
+            return null;
+        }
+    }
+
+    public List<Product> getProductsByCategory(String categoryId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COLLECTION_NAME)
+                .whereEqualTo("categoryId", categoryId)
+                .get();
+
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<Product> products = new ArrayList<>();
+        for (QueryDocumentSnapshot doc : documents) {
+            products.add(doc.toObject(Product.class));
+        }
+        return products;
+    }
+
+
+
 
     public String addReviewsToProduct(String productId, List<Review> newReviews) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();

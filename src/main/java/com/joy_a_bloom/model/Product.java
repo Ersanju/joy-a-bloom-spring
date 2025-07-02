@@ -1,5 +1,6 @@
 package com.joy_a_bloom.model;
 
+import com.google.cloud.firestore.annotation.PropertyName;
 import lombok.*;
 import java.util.Date;
 import java.util.List;
@@ -28,4 +29,15 @@ public class Product {
     private Date createdAt;
     private Date updatedAt;
     private String createdBy;
+
+    @PropertyName("isAvailable")
+    public Boolean getIsAvailable() {
+        return isAvailable;
+    }
+
+    @PropertyName("isAvailable")
+    public void setIsAvailable(Boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
 }
